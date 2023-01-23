@@ -1,0 +1,137 @@
+﻿<Window x:Class="TriggerWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TriggerWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources\Style.xaml" />
+                <ResourceDictionary Source="Resources\Template.xaml" />
+                <ResourceDictionary Source="Resources\TemplateDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>-->
+        
+        <!--Триггеры свойств-->
+        <Style x:Key="BigFontTabItem">
+            <Style.Setters>
+                <Setter Property="Control.FontFamily" 
+                        Value="Times New Roman"></Setter>
+
+                <Setter Property="ItemsControl.FontSize"
+                        Value="18"></Setter>
+
+            </Style.Setters>
+
+            <Style.Triggers>
+                <Trigger Property="Control.IsFocused" Value="True">
+                    <Setter Property="ItemsControl.Foreground"
+                                Value="DarkRed"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!--Мультитриггер-->
+        <Style x:Key="BigFontTanItemMulti" TargetType="TabItem">
+            <Style.Setters>
+                
+            </Style.Setters>
+
+            <Style.Triggers>
+            <MultiTrigger>
+
+
+                    <MultiTrigger.Conditions>
+                        <Condition Property="Control.IsFocused"
+                                   Value="True"></Condition>
+                        <Condition Property="Control.IsMouseOver"
+                                   Value="True"></Condition>
+                    </MultiTrigger.Conditions>
+
+                    <MultiTrigger.Setters>
+                        <Setter Property="Control.Foreground"
+                                Value="DarkRed"></Setter>
+                    </MultiTrigger.Setters>
+            </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!--Триггеры событий-->
+        <Style x:Key="BigFontButtonStyle">
+            <Style.Setters>
+                <Setter Property="Control.FontSize" Value="10"></Setter>
+            </Style.Setters>
+
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0:02"
+                                                 Storyboard.TargetProperty="FontSize"
+                                                 To="22"></DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!--Триггер данных-->
+        <Style x:Key="ButtonDataTrigger">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=chBox1, Path=IsChecked}"
+                             Value="True">
+                    <Setter Property="CheckBox.IsEnabled" Value="False"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+    </Window.Resources>
+    
+    <Grid>
+        <TabControl>
+            <TabItem Style="{StaticResource BigFontTabItem}"
+                     Header="My test header">
+                <StackPanel>
+                    <Label>00001</Label>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="tab 2" Style="{StaticResource BigFontTanItemMulti}">
+                <Button Height="20" Style="{StaticResource BigFontButtonStyle}"></Button>
+            </TabItem>
+            <TabItem Header="tab 3">
+                <StackPanel>
+                    <CheckBox x:Name="chBox1" Content="Disable"/>
+                    <Button x:Name="btnCh" Content=" button "
+                            Style="{StaticResource ButtonDataTrigger}"></Button>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        
+        <StackPanel Margin="30">
+            <Button Margin="20" Height="20" Content="This is button"/>
+
+            <!--<Button Width="150" Height="25"
+                    Template="{StaticResource ButtonTemplate}"
+                    Content="Static Resources"/>-->
+
+            <!--<Button Margin="20" Height="20">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="Yellow"></Ellipse>
+                            <ContentPresenter Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>-->
+        </StackPanel>
+    </Grid>
+</Window>
+
+    
